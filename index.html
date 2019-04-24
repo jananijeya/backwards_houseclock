@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <canvas id="wall" width="400" height="400" style="background-color:#333">
+        </canvas>
+    </body>
+</html>
+
+<script>
+
+    // DRAW WALL
+
+    var wall = document.getElementById("wall");
+    var ctx = wall.getContext("2d"); //Create a 2D drawing object (context) for the canvas object
+    //console.log(ctx);
+    var radius = wall.height /2;
+    ctx.translate(radius, radius); //Translates right and down from (0,0) corner at top right of canvas
+    radius = radius*0.80 //Reduce radius to make sure clock is within canvas
+    drawClock();
+
+    // function drawClock(){
+    //     ctx.arc(0, 0, radius, 0, 2*Math.PI); //context.arc(xCenter,yCenter,r, startAngle, endAngle)
+    //     ctx.fillStyle = "white"; //fill colour for drawn circle
+    //     ctx.fill(); //Arcs can be drawn with stroke() or fill()
+        
+    // }
+
+    // DRAW CLOCKFACE
+
+    function drawClock(){
+        drawFace(ctx, radius);
+    }
+
+    function drawFace(ctx, radius){
+        var grad;
+
+        ctx.beginPath() //begins or resets a path
+
+        ctx.arc(0, 0, radius, 0, 2*Math.PI); //context.arc(xCenter,yCenter,r, startAngle, endAngle)
+        ctx.fillStyle = "white"; //fill colour for drawn circle
+        ctx.fill(); //Arcs can be drawn with stroke() or fill()
+
+        //Creates outer rim of clock:
+
+        grad = ctx.createRadialGradient(0, 0, radius*0.95, 0, 0, radius*1.05); //context.createRadialGradient(x0,y0,r0,x1,y1,r1) where x0,y0 is the centre of the starting circle
+                                          // x1,y1 where x1,y1 is the centre of the ending circle; r1 is the radius of the ending circle
+        grad.addColorStop(0, '#8B4513');  //addColorStop(start,stop) where start and stop have values between 0 and 1 to indicate where gradient starts and ends
+        grad.addColorStop(0.5, 'white');
+        grad.addColorStop(1, '#8B4513');
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = radius*0.4; //current line width
+        ctx.stroke();
+
+        //Creates inner circle of clock:
+
+        ctx.beginPath();
+        ctx.arc(0, 0, radius*0.1, 0, 2*Math.PI);
+        ctx.fillStyle = '#8B4513';
+        ctx.fill();
+    }
+
+</script>
